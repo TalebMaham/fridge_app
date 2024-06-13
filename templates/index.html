@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Frigo de Vente</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            function fetchProducts() {
+                $.ajax({
+                    url: "/api/products",
+                    method: "GET",
+                    success: function(data) {
+                        var productsList = $('#products-list');
+                        productsList.empty();
+                        data.forEach(function(product) {
+                            productsList.append('<li>' + product.name + ' - ' + product.price + '€</li>');
+                        });
+                    },
+                    error: function(error) {
+                        console.log("Error fetching products:", error);
+                    }
+                });
+            }
+
+            // Fetch products on page load
+            fetchProducts();
+
+            // Fetch products every 30 seconds
+            setInterval(fetchProducts, 2000);
+        });
+    </script>
+</head>
+<body>
+    <h1>Produits Disponibles</h1>
+    <ul id="products-list">
+        <!-- Les produits seront chargés ici -->
+    </ul>
+</body>
+</html>
